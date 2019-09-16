@@ -8,12 +8,14 @@ public class CardsClicked extends ArrayList<CardsClicked> {
 
     private Card card;
     private ImageView imageView;
+    private int position;
 
     public CardsClicked() {}
 
-    public CardsClicked(Card card, ImageView imageView) {
+    public CardsClicked(Card card, ImageView imageView, int position) {
         this.card = card;
         this.imageView = imageView;
+        this.position = position;
     }
 
     public Card getCard() {
@@ -32,4 +34,11 @@ public class CardsClicked extends ArrayList<CardsClicked> {
         this.imageView = imageView;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 }
