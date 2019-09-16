@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.danielminami.memorygameshopify.model.Board;
 import com.danielminami.memorygameshopify.model.Card;
 import com.danielminami.memorygameshopify.model.CardList;
 import com.danielminami.memorygameshopify.model.Image;
@@ -17,6 +18,8 @@ import com.danielminami.memorygameshopify.model.ProductClient;
 import com.danielminami.memorygameshopify.model.ProductList;
 import com.danielminami.memorygameshopify.model.Utility;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -28,13 +31,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
 
-    private static final int COLUMNS_SIZE = 80;
+    private static final int COLUMNS_SIZE = 50;
     private static final int PAIRS = 10;
     private static final String TAGMINAMI= MainActivity.class.getSimpleName();
     MyRecyclerViewAdapter adapter;
     public static final String ENDPOINT = "https://shopicruit.myshopify.com/";
-    public CardList cardList;
-
+    public CardList cardList = new CardList();
+    public Board board;
     public ListView listView;
 
     @Override
@@ -42,51 +45,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Retrofit.Builder builder = new Retrofit.Builder().
-                baseUrl(ENDPOINT).
-                addConverterFactory(GsonConverterFactory.create());
-
-        Retrofit retrofit = builder.build();
-
-        ProductClient productClient = retrofit.create(ProductClient.class);
-        //Call<List<Product>> call = productClient.listAllProducts();
-        Call<ProductList> call = productClient.getProductList();
-        call.enqueue(new Callback<ProductList>() {
-            @Override
-            public void onResponse(Call<ProductList> call, Response<ProductList> response) {
-                ProductList productList = response.body();
-                Log.d(TAGMINAMI, productList.toString());
-                RecyclerView recyclerView = findViewById(R.id.rvNumbers);
-
-                String[] data = new String[10];
-                Random random = new Random();
-
-                for (int i = 0; i < 20; i++) {
-
-                    int randomPosition = random.nextInt(productList.getProducts().size());
-                    Card card = new Card(Integer.parseInt(productList.getProducts().get(randomPosition).getTitle()),
-                            productList.getProducts().get(randomPosition).getImage());
-
-                    cardList.add(card);
-
-                }
-
-                //String[] data = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
-
-                int numberOfColumns = Utility.calculateNoOfColumns(getApplicationContext(), COLUMNS_SIZE);
-                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, numberOfColumns));
-                adapter = new MyRecyclerViewAdapter(MainActivity.this, data);
-                adapter.setClickListener(MainActivity.this);
-                recyclerView.setAdapter(adapter);
-
-            }
-
-            @Override
-            public void onFailure(Call<ProductList> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error reading data.", Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
-            }
-        });
+        loadImages();
 
 
 
@@ -156,6 +115,58 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
     }
 
 
+    public void loadImages() {
+
+        Retrofit.Builder builder = new Retrofit.Builder().
+                baseUrl(ENDPOINT).
+                addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+
+        ProductClient productClient = retrofit.create(ProductClient.class);
+        Call<ProductList> call = productClient.getProductList();
+        call.enqueue(new Callback<ProductList>() {
+            @Override
+            public void onResponse(Call<ProductList> call, Response<ProductList> response) {
+                ProductList productList = response.body();
+                //Log.d(TAGMINAMI, productList.toString());
+                RecyclerView recyclerView = findViewById(R.id.rvNumbers);
+
+
+
+                for (int i = 0; i < 15+1; i++) {
+
+                    if (i != 10) {
+                        Card card = new Card(i, productList.getProducts().get(i).getImage().getSrc());
+                        cardList.add(card);
+                    }
+
+
+
+                }
+
+                board = new Board(cardList);
+
+                Collections.shuffle(board);
+
+                //String[] data = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+
+                int numberOfColumns = Utility.calculateNoOfColumns(getApplicationContext(), COLUMNS_SIZE);
+                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, numberOfColumns));
+                adapter = new MyRecyclerViewAdapter(MainActivity.this, board);
+                adapter.setClickListener(MainActivity.this);
+                recyclerView.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<ProductList> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Error reading data.", Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
+
+    }
 
     @Override
     public void onItemClick(View view, int position) {

@@ -5,11 +5,13 @@ import com.danielminami.memorygameshopify.model.Image;
 public class Card {
 
     private int id;
-    private Image image;
+    private String imageSrc;
 
-    public Card(int id, Image image) {
+    public Card() {}
+
+    public Card(int id, String imageSrc) {
         this.id = id;
-        this.image = image;
+        this.imageSrc = imageSrc;
     }
 
     public int getId() {
@@ -20,11 +22,11 @@ public class Card {
         this.id = id;
     }
 
-    public Image getImage() {
-        return image;
+    public String getImageSrc() {
+        return imageSrc;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 }
