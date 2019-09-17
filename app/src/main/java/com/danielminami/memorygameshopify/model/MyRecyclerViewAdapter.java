@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.danielminami.memorygameshopify.R;
  * This class models an Adapter that allows data to be binded to the layout
  *
  * Credit: https://stackoverflow.com/a/40587169
+ *
+ * @author Daniel Minami
  */
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
@@ -66,7 +69,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         ImageView imageView;
         private TextView txtMoves = (TextView)((Activity)context).findViewById(R.id.txtPlayerMoves);
         private TextView txtMatches = (TextView)((Activity)context).findViewById(R.id.txtMatches);
-        /* Credit: https://stackoverflow.com/a/42868303/8695493 */
+        /* Credit to: https://stackoverflow.com/a/42868303/8695493 */
         private int defaultImg = context.getResources().getIdentifier("@mipmap/ic_launcher",
                 "drawable", context.getPackageName());
 
@@ -133,7 +136,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 1. Cleans the screen if that is needed
                 2. Cleans the control array
                 */
-                if (cardsClicked.size() == 2) {
+                if (cardsClicked.size() == Config.getNumOfMatchesPerGame()) {
                     for (CardsClicked card : cardsClicked) {
                         Glide.with(context)
                                 .load(defaultImg)
@@ -152,7 +155,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                         .into(imageView);
 
                 /* 5. Tests for the right matching size */
-                if (cardsClicked.size() == 2) {
+                if (cardsClicked.size() == Config.getNumOfMatchesPerGame()) {
                     /* 6. Tests the current click if there's a match */
                     if (mBoard.match(cardsClicked)) {
                         /* 7. Format the Cards in the Board that had the match and add
@@ -170,24 +173,21 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                                     .into(card.getImageView());
 
                             cardsMatched.add(card);
-                            txtMoves.setText(String.valueOf(++playerMoves));
-
                         }
                         /* 8. Refresh current control and update results at the Screen */
                         cardsClicked.clear();
                         txtMatches.setText(String.valueOf(++playerMatches));
-                        /* Credits: https://stackoverflow.com/a/10996569/8695493 */
-
-
+                        txtMoves.setText(String.valueOf(++playerMoves));
 
                         /* 9. Check for winning condition */
                         /* 10. Dysplay Winner */
+                        if (mBoard.size() == cardsMatched.size()) {
+                            showWinner(playerMoves);
+                        }
+
                     } else {
                         txtMoves.setText(String.valueOf(++playerMoves));
                     }
-
-                    //If reaches the number of clicks, clean the selection stack
-
                 }
             }
         }
@@ -206,5 +206,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
         void onItemClick(View view, int position);
+    }
+
+    public void showWinner(int moves) {
+        String message = String.format("You Win with %d movements!\nTo play again press Shuffle.",
+                moves);
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setTitle("Good Job!");
+        alert.setMessage(message);
+        alert.setPositiveButton("OK",null);
+        alert.show();
     }
 }
