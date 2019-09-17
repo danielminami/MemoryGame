@@ -27,14 +27,14 @@ public class CardsClicked extends ArrayList<CardsClicked> {
     /**
      * Constructs an instance of CardsClicked
      *
-     * @param card
-     * @param imageView
-     * @param position
+     * @param card card clicked
+     * @param imageView related UI Object
+     * @param position position clicked
      */
     public CardsClicked(Card card, ImageView imageView, int position) {
-        this.card = card;
-        this.imageView = imageView;
-        this.position = position;
+        setCard(card);
+        setImageView(imageView);
+        setPosition(position);
     }
 
     /**
@@ -47,7 +47,7 @@ public class CardsClicked extends ArrayList<CardsClicked> {
 
     /**
      * Sets a Card
-     * @param card
+     * @param card object
      */
     public void setCard(Card card) {
         this.card = card;
@@ -63,7 +63,7 @@ public class CardsClicked extends ArrayList<CardsClicked> {
 
     /**
      * Sets an ImageView
-     * @param imageView
+     * @param imageView UI object
      */
     public void setImageView(ImageView imageView) {
         this.imageView = imageView;
@@ -79,7 +79,7 @@ public class CardsClicked extends ArrayList<CardsClicked> {
 
     /**
      * Sets the clicked position
-     * @param position
+     * @param position position reference
      */
     public void setPosition(int position) {
         this.position = position;

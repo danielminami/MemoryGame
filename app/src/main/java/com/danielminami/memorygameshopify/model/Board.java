@@ -33,7 +33,7 @@ public class Board extends ArrayList<Card> {
      * This method compares the Cards and returns true if they have the same ID.
      * Returns false otherwise.
      *
-     * @param clicks
+     * @param clicks group of cards
      * @return true if they are equal, false otherwise
      */
     public boolean match(CardsClicked clicks) {

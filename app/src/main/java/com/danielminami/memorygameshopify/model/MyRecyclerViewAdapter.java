@@ -17,7 +17,7 @@ import com.danielminami.memorygameshopify.R;
 
 
 /**
- * This class models an Adapter that allows data to be binded to the layout
+ * This class models an Adapter that allows data to be bind to the layout
  *
  * Credit: https://stackoverflow.com/a/40587169
  *
@@ -35,7 +35,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private int playerMoves = 0;
     private int playerMatches = 0;
 
-    // data is passed into the constructor
+    /**
+     * Constructs my custom Adapter
+     *
+     * @param context to be used to access the application context
+     * @param board current game board
+     */
     public MyRecyclerViewAdapter(Context context, Board board) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
@@ -43,7 +48,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     }
 
-    // inflates the cell layout from xml when needed
+    //
+
+    /**
+     * This method inflates the cell layout as needed
+     *
+     * @param parent object of this view
+     * @param viewType numeric reference  type
+     * @return
+     */
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,20 +64,31 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return new ViewHolder(view);
     }
 
-
+    /**
+     * Overridden but not used in this application
+     *
+     * @param holder instance
+     * @param position in the UI
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
     }
 
-
+    /**
+     * Gets the number of cells in this game
+     *
+     * @return number of cells
+     */
     @Override
     public int getItemCount() {
         return mBoard.size();
     }
 
 
-    // stores and recycles views as they are scrolled off screen
+    /**
+     * This class stores and recycles views as needed
+     */
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imageView;
         private TextView txtMoves = (TextView)((Activity)context).findViewById(R.id.txtPlayerMoves);
@@ -79,6 +103,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             itemView.setOnClickListener(this);
         }
 
+        /**
+         * This function handles the user's click on the Board
+         *
+         * @param view current view
+         */
         @Override
         public void onClick(View view) {
             if (mClickListener != null)
@@ -128,7 +157,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 7. Format the Cards in the Board that had the match and add to matched array
                 8. Refresh current control and update results at the Screen
                 9. Check for winning condition
-                10. Dysplay Winner
+                10. Display Winner
              */
             if (!skipClick) {
 
@@ -180,7 +209,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                         txtMoves.setText(String.valueOf(++playerMoves));
 
                         /* 9. Check for winning condition */
-                        /* 10. Dysplay Winner */
+                        /* 10. Display Winner */
                         if (mBoard.size() == cardsMatched.size()) {
                             showWinner(playerMoves);
                         }
@@ -193,22 +222,38 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }
     } //end of ViewHolder class
 
-    // convenience method for getting data at click position
+    /**
+     * Returns the Card in a certain position
+     *
+     * @param id position
+     * @return a Card instance
+     */
     public Card getItem(int id) {
         return mBoard.get(id);
     }
 
-    // allows clicks events to be caught
+    /**
+     * Method to set click listener
+     *
+     * @param itemClickListener listener instance
+     */
     public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 
-    // parent activity will implement this method to respond to click events
+    /**
+     * Used by parent activity to respond to click events
+     */
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }
 
-    public void showWinner(int moves) {
+    /**
+     * Displays the winning message
+     *
+     * @param moves player used to win the game
+     */
+    private void showWinner(int moves) {
         String message = String.format("You Win with %d movements!\nTo play again press Shuffle.",
                 moves);
         AlertDialog.Builder alert = new AlertDialog.Builder(context);

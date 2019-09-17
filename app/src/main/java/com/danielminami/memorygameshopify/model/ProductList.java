@@ -23,12 +23,14 @@ public class ProductList {
         return products;
     }
 
+
     /**
      * Set a list of products
      *
      * @param products
      */
+    /*
     public void setProducts(List<Product> products) {
         this.products = products;
-    }
+    }*/
 }

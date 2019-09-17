@@ -19,12 +19,12 @@ public class Card {
     /**
      * Constructs a Card Object with data
      *
-     * @param id
-     * @param imageSrc
+     * @param id Card id number
+     * @param imageSrc String image location
      */
     public Card(int id, String imageSrc) {
-        this.id = id;
-        this.imageSrc = imageSrc;
+        setId(id);
+        setImageSrc(imageSrc);
     }
 
     /**
@@ -37,7 +37,7 @@ public class Card {
 
     /**
      * Sets Card ID
-     * @param id
+     * @param id oh the Card
      */
     public void setId(int id) {
         this.id = id;
@@ -53,7 +53,7 @@ public class Card {
 
     /**
      * Sets Card Image Reference
-     * @param imageSrc
+     * @param imageSrc string with image location
      */
     public void setImageSrc(String imageSrc) {
         this.imageSrc = imageSrc;

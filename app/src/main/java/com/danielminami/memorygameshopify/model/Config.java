@@ -12,7 +12,7 @@ import android.util.DisplayMetrics;
  */
 public class Config {
 
-    public static Config obj = new Config();
+    private static Config obj = new Config();
     private static int pairsToMatch = 10;
     private static int numOfMatchesPerGame = 2;
     private static int columnSize = 50;
@@ -29,7 +29,7 @@ public class Config {
      *
      * @return the single instance of Config
      */
-    public static final Config getConfig() {
+    public static Config getConfig() {
         if (obj == null) {
             return new Config();
         } else {
@@ -49,7 +49,7 @@ public class Config {
     /**
      * Sets the number of cards to form a match
      *
-     * @param pairsToMatch
+     * @param pairsToMatch number
      */
     public void setPairsToMatch(int pairsToMatch) {
         this.pairsToMatch = pairsToMatch;
@@ -67,7 +67,7 @@ public class Config {
     /**
      * Sets number of pairs to match
      *
-     * @param numOfMatchesPerGame
+     * @param numOfMatchesPerGame number
      */
     public void setNumOfMatchesPerGame(int numOfMatchesPerGame) {
         this.numOfMatchesPerGame = numOfMatchesPerGame;
@@ -91,10 +91,10 @@ public class Config {
 
 
     /**
-     * This method is used to dinamically decide how many cards will be placed
+     * This method is used to dynamically decide how many cards will be placed
      * for screen line.
      *
-     * Cretits: https://stackoverflow.com/a/38472370
+     * Credits: https://stackoverflow.com/a/38472370
      */
     public static int calculateNoOfColumns(Context context) {
 
@@ -102,9 +102,7 @@ public class Config {
 
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
-        int noOfColumns = (int) (screenWidthDp / columnWidthDp + 0.5);
-
-        return noOfColumns;
+        return (int)(screenWidthDp / columnWidthDp + 0.5);
     }
 
 }

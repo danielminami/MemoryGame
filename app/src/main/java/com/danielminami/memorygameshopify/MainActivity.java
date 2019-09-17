@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+//import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,11 +30,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class MainActivity extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
 
-    private static final String TAGMINAMI= MainActivity.class.getSimpleName();
-    public MyRecyclerViewAdapter adapter;
-    public Board board;
-    public Spinner spinnerNumCards;
-    public Spinner spinnerPairsOf;
+    //private static final String TAGMINAMI= MainActivity.class.getSimpleName();
+    private MyRecyclerViewAdapter adapter;
+    private Board board;
+    private Spinner spinnerNumCards;
+    private Spinner spinnerPairsOf;
 
 
     @Override
@@ -43,15 +43,15 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
         setContentView(R.layout.activity_main);
 
         Config.getConfig();
-        spinnerNumCards = (Spinner) findViewById(R.id.spinnerNumOfCards);
-        spinnerPairsOf = (Spinner) findViewById(R.id.spinnerPairsOf);
+        spinnerNumCards = findViewById(R.id.spinnerNumOfCards);
+        spinnerPairsOf = findViewById(R.id.spinnerPairsOf);
 
-        ArrayAdapter<String> adapterPairsOf = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapterPairsOf = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item,
                 getResources().getStringArray(R.array.pairs_of));
         spinnerPairsOf.setAdapter(adapterPairsOf);
 
-        ArrayAdapter<String> adapterNumCards = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapterNumCards = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item,
                 getResources().getStringArray(R.array.num_cards));
         spinnerNumCards.setAdapter(adapterNumCards);
@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     public void loadImages() {
 
-        TextView txtMoves = (TextView) findViewById(R.id.txtPlayerMoves);
-        TextView txtMatches = (TextView) findViewById(R.id.txtMatches);
+        TextView txtMoves = findViewById(R.id.txtPlayerMoves);
+        TextView txtMatches = findViewById(R.id.txtMatches);
         txtMoves.setText("0");
         txtMatches.setText("0");
 
@@ -82,14 +82,14 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                 (spinnerPairsOf.getSelectedItemPosition()).toString()));
 
         Retrofit.Builder builder = new Retrofit.Builder().
-                baseUrl(Config.getConfig().getEndPoint()).
+                baseUrl(Config.getEndPoint()).
                 addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
 
         ProductClient productClient = retrofit.create(ProductClient.class);
 
-        /* Retrofit Assyncronous Call */
+        /* Retrofit Asynchronous Call */
         Call<ProductList> call = productClient.getProductList();
         call.enqueue(new Callback<ProductList>() {
             @Override
@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
 
     @Override
     public void onItemClick(View view, int position) {
+        // Used for debugging
         //Log.i(TAGMINAMI, "Clicked: " + adapter.getItem(position) + " position " + position);
     }
 
