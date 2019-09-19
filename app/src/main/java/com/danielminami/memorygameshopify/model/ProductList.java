@@ -1,5 +1,6 @@
 package com.danielminami.memorygameshopify.model;
 
+import com.danielminami.memorygameshopify.dal.Product;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
