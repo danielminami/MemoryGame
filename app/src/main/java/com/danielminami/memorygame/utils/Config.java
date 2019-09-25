@@ -1,4 +1,4 @@
-package com.danielminami.memorygameshopify.model;
+package com.danielminami.memorygame.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

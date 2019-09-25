@@ -1,4 +1,4 @@
-package com.danielminami.memorygameshopify;
+package com.danielminami.memorygame;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.danielminami.memorygameshopify.model;
+package com.danielminami.memorygame.model;
 
 /**
  * This class model a Card for the memory Game.

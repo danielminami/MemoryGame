@@ -1,4 +1,6 @@
-package com.danielminami.memorygameshopify.model;
+package com.danielminami.memorygame.model;
+
+import com.danielminami.memorygame.utils.Config;
 
 import java.util.ArrayList;
 

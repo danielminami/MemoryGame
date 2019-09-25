@@ -1,4 +1,4 @@
-package com.danielminami.memorygameshopify.model;
+package com.danielminami.memorygame.model;
 
 import android.widget.ImageView;
 

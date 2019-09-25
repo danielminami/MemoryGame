@@ -1,6 +1,5 @@
-package com.danielminami.memorygameshopify.model;
+package com.danielminami.memorygame.model;
 
-import com.danielminami.memorygameshopify.dal.Product;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -30,8 +29,5 @@ public class ProductList {
      *
      * @param products
      */
-    /*
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }*/
+
 }
