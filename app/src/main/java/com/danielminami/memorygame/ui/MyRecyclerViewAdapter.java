@@ -129,7 +129,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             /*
             Skip click if clicking the same card as clicked before
              */
-            if (cardsClicked.size() > 0) {
+            if (cardsClicked.size() > 0 && cardsClicked.size() < Config.getNumOfMatchesPerGame()) {
                 for (CardsClicked card: cardsClicked) {
                     if (card.getPosition() == temp.getPosition()){
                         skipClick = true;
